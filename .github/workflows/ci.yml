@@ -5,15 +5,37 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
+
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
           python-version: 3.8
+
+      - name: Cache pip
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
+
       - name: Run Streamlit app
         run: |
-          streamlit run app.py
+          streamlit run app.py > streamlit_output.log 2>&1 &
+          sleep 10
+          curl -f http://localhost:8501 || (cat streamlit_output.log && exit 1)
+          pkill streamlit
+
+      - name: Upload Streamlit log
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: streamlit-log
+          path: streamlit_output.log
