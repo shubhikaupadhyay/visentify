@@ -83,8 +83,8 @@ with col1:
  
 with col2:   
 	# Word Cloud for the whole data
-	st.subheader("Word Cloud for All the Reviews")
-	all_reviews_text = ' '.join(data['verified_reviews'])
+	st.subheader("Word Cloud for All the Reviews") 
+	all_reviews_text = ' '.join(data['verified_reviews'].fillna('').astype(str))
 	wordcloud = WordCloud(background_color='rgba(255, 255, 255, 0)', width=800, height=400).generate(all_reviews_text)
 
 	# Plot Word Cloud
