@@ -18,8 +18,10 @@ def load_data():
     data = pd.read_csv('amazon_alexa.tsv', sep='\t')
     return data
 	
-# Convert non-string reviews to strings
-data['verified_reviews'] = data['verified_reviews'].astype(str)
+def preprocess_data(data):
+    # Convert non-string reviews to strings
+    data['verified_reviews'] = data['verified_reviews'].astype(str)
+    return data
 
 # Sentiment Analysis Function
 def analyze_sentiment(text):
@@ -39,6 +41,10 @@ def generate_wordcloud(text):
     wc = WordCloud(background_color='white', max_words=50)
     wordcloud = wc.generate(text)
     return wordcloud
+
+# Main Code
+data = load_data()
+data = preprocess_data(data)
 
 # Sidebar
 st.sidebar.title("Data Information")
