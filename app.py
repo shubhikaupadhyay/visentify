@@ -26,16 +26,16 @@ def preprocess_data(data):
 # Sentiment Analysis Function
 def analyze_sentiment(text):
 	text = str(text)
-    blob = TextBlob(text)
-    subjectivity = blob.subjectivity
-    polarity = blob.polarity
-    if polarity < 0:
-        sentiment = 'Negative'
-    elif polarity == 0:
-        sentiment = 'Neutral'
-    else:
-        sentiment = 'Positive'
-    return subjectivity, polarity, sentiment
+	blob = TextBlob(text)
+	subjectivity = blob.subjectivity
+	polarity = blob.polarity
+	if polarity < 0:
+		sentiment = 'Negative'
+	elif polarity == 0:
+		sentiment = 'Neutral'
+	else:
+        	sentiment = 'Positive'
+	return subjectivity, polarity, sentiment
 
 # Word Cloud Function
 def generate_wordcloud(text):
