@@ -25,6 +25,7 @@ def preprocess_data(data):
 
 # Sentiment Analysis Function
 def analyze_sentiment(text):
+	text = str(text)
     blob = TextBlob(text)
     subjectivity = blob.subjectivity
     polarity = blob.polarity
