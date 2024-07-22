@@ -17,6 +17,9 @@ st.set_page_config(page_title = "Visentify",
 def load_data():
     data = pd.read_csv('amazon_alexa.tsv', sep='\t')
     return data
+	
+# Convert non-string reviews to strings
+data['verified_reviews'] = data['verified_reviews'].astype(str)
 
 # Sentiment Analysis Function
 def analyze_sentiment(text):
@@ -40,7 +43,6 @@ def generate_wordcloud(text):
 # Sidebar
 st.sidebar.title("Data Information")
 data = load_data()
-# st.sidebar.subheader("Dataset Info")
 st.sidebar.write(f"Dataset Shape: {data.shape}")
 st.sidebar.subheader("Preview Data")
 st.sidebar.write(data.head())
