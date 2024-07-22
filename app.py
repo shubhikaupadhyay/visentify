@@ -3,7 +3,6 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
-from transformers import BartTokenizer, BartForConditionalGeneration
 import plotly.graph_objects as go
 from textblob import TextBlob
 import plotly.express as px
@@ -129,26 +128,3 @@ with col2:
 		width=600
 	)
 	st.plotly_chart(fig)
-
-
-# # Review Summarization
-
-# # Assuming you have a dataframe named 'data' containing the Amazon Alexa reviews
-# variant_dataframes = {}
-# for variant in data['variation'].unique():
-#     variant_dataframes[variant] = data[data['variation'] == variant]
-
-# from gensim.summarization import summarize
-
-# # Generate summaries for each variant's dataframe
-# for variant, df in variant_dataframes.items():
-#     variant_dataframes[variant]['summary'] = df['verified_reviews'].apply(summarize)
-
-# import streamlit as st
-
-# # Dropdown to select variant
-# selected_variant = st.selectbox("Select Variant", list(variant_dataframes.keys()))
-
-# if selected_variant:
-#     selected_summary = variant_dataframes[selected_variant]['summary']
-#     st.write(selected_summary)
