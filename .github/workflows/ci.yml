@@ -1,6 +1,12 @@
 name: CI
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
@@ -45,4 +51,39 @@ jobs:
         with:
           name: streamlit-log
           path: streamlit_output.log
-    
+
+  container:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Docker image
+        run: |
+          docker build -t ghcr.io/${{ github.repository }}/visentify-app:latest .
+
+      - name: Push Docker image
+        run: |
+          docker push ghcr.io/${{ github.repository }}/visentify-app:latest
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: container
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy Docker image
+        run: |
+          # Replace with your actual deployment commands
+          echo "Deploying Docker image to your service..."
+          # Example deployment commands:
+          # gcloud auth configure-docker
+          # gcloud run deploy your-service-name --image ghcr.io/${{ github.repository }}/visentify-app:latest --platform managed --region your-region
