@@ -39,3 +39,8 @@ jobs:
         with:
           name: streamlit-log
           path: streamlit_output.log
+      
+      - name: Run tests
+        run: |
+          pytest
+
